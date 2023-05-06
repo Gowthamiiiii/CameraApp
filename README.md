@@ -33,7 +33,7 @@ npm install @angular/common@latest --save
 Add angular material 
 ng add @angular/material
 
-# As it is not mentioned to dispaly grid elements only in left ,I dispalyed them all over the page.
+
 
 
 
