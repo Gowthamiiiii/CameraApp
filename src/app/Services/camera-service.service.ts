@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, interval } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Camera } from './Camera';
+import { Camera } from '../Camera';
 
 @Injectable({
   providedIn: 'root'

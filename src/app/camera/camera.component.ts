@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Camera } from '../Camera';
-import { CameraServiceService } from '../camera-service.service';
+import { CameraServiceService } from '../Services/camera-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CameraDialogComponent } from '../camera-dialog/camera-dialog.component';
 
