@@ -13,6 +13,7 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
   userSessionId: string | null = null;
+  jwtToken: string | null = null;
 
 
   constructor(private authService: AuthService) { }
@@ -26,11 +27,13 @@ export class LoginComponent {
     };
 
     this.authService.authenticate(credentials).subscribe(
-      sessionId => {
+      response => {
         this.authenticated = true;
-        this.userSessionId = sessionId;
+        this.userSessionId = response.sessionId;
+        this.jwtToken = response.jwtToken;
         console.log(`User session ID: ${this.userSessionId}`);
-        // Do something with the user session ID, such as using it to access other services
+        console.log(`JWT Token: ${this.jwtToken}`);
+        // Do something with the user session ID and JWT token
       },
       error => {
         console.log('Authentication failed:', error);
