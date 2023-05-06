@@ -25,3 +25,15 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+Install http client module using 
+npm install @angular/common@latest --save
+
+Add angular material 
+ng add @angular/material
+
+# As it is not mentioned to dispaly grid elements only in left ,I dispalyed them all over the page.
+
+
+

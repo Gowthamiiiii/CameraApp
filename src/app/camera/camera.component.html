@@ -1,0 +1,7 @@
+<div class="camera-grid">
+    <a *ngFor="let camera of cameras" href="#" class="camera-item">
+      <img [src]="camera.camera.href" alt="Camera Image">
+      <p>{{ camera.name }}</p>
+    </a>
+  </div>
+  

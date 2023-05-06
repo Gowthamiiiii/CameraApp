@@ -1,18 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CameraComponent } from './camera/camera.component';
+import { CameraServiceService } from './camera-service.service';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CameraComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    MatDialogModule
   ],
-  providers: [],
+  providers: [CameraServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
