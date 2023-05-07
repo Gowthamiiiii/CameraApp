@@ -9,7 +9,9 @@ import { SessionService } from '../Services/session.service';
   styleUrls: ['./cam-stream.component.css']
 })
 export class CamStreamComponent {
-  streams: Stream[] = [];
+
+  
+  streams: any = [];
   jwtToken: string | null = null;
   sessionId: string | null = null;
 
@@ -24,7 +26,7 @@ export class CamStreamComponent {
     this.jwtToken = this.sessionService.jwtToken;
     this.sessionId = this.sessionService.sessionId;
 
-    this.apiService.getStreams(this.jwtToken!, this.sessionId!, live).subscribe(
+    this.apiService.getCamera().subscribe(
       streams => {
         this.streams = streams;
         console.log(this.streams); // check the streams data in console
