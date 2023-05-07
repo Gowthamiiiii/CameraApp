@@ -2,3 +2,10 @@
 <!-- Replace https://orchid.ipconfigure.com/service/streams/2019/frame with the dynamic URL -->
 <img src="https://orchid.ipconfigure.com/service/streams/2019/frame" alt="Camera Stream" onerror="this.style.display='none';">
 
+<div class="camera-grid">
+    <a *ngFor="let camera of streamUrls" href="#" class="camera-item">
+      <img [src]="camera" alt="Camera Image">
+      <p>{{ camera }}</p>
+    </a>
+  </div>
+  

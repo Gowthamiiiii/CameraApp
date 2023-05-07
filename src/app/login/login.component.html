@@ -1,9 +1,21 @@
-<form (submit)="onSubmit()">
-    <label for="username">Username:</label>
-    <input type="text" id="username" [(ngModel)]="username" name="username" required>
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" [(ngModel)]="password" name="password" required>
-
-    <button type="submit">Log In</button>
-</form>
+<div class="login-container" *ngIf="!loggedIn">
+    <div class="login-box">
+      <div class="login-box__title">Log In</div>
+      <form (submit)="onSubmit()">
+        <label for="username" class="login-box__label">Username:</label>
+        <input type="text" id="username" [(ngModel)]="username" name="username" required class="login-box__input">
+  
+        <label for="password" class="login-box__label">Password:</label>
+        <input type="password" id="password" [(ngModel)]="password" name="password" required class="login-box__input">
+  
+        <button type="submit" class="login-box__button">Log In</button>
+      </form>
+    </div>
+  </div>
+  
+  
+  <router-outlet></router-outlet>
+  
+  
+  
+  

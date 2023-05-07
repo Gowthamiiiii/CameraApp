@@ -19,6 +19,12 @@ export class AuthService {
       Authorization: `Basic ${btoa('liveviewer:tpain')}`,
     })
   };
+  private httpHeaders = {
+    headers: new HttpHeaders({
+      'Content-Type': 'image/jpeg',
+      Authorization: `Basic ${btoa('liveviewer:tpain')}`,
+    })
+  };
 
   constructor(private http: HttpClient) { }
 
@@ -57,16 +63,10 @@ export class AuthService {
   }
 
 
-  getFrames(streamId: string): Observable<any> {
+  getFrames(streamId: string): Observable<Object> {
     const url = `https://orchid.ipconfigure.com/service/streams/${streamId}/frame`;
   
-    return this.http.get<any>(url, this.httpOptions).pipe(
-      filter(response => response.status === 200 && response.statusText === 'OK'),
-      catchError(error => {
-        console.error(error);
-        return of([]);
-      })
-    );
+    return this.http.get(url, this.httpHeaders);
   }
   
   

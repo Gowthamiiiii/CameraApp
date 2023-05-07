@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Stream } from '../Stream';
 import { AuthService } from '../Services/auth.service';
 import { SessionService } from '../Services/session.service';
@@ -10,19 +10,33 @@ type StreamHrefs = { [id: string]: string };
   templateUrl: './cam-stream.component.html',
   styleUrls: ['./cam-stream.component.css']
 })
-export class CamStreamComponent {
+export class CamStreamComponent implements OnInit{
   streams: any = [];
   cameras: any = [];
   cameraids: number[] = [];
   jwtToken: string | null = null;
   sessionId: string | null = null;
   streamUrls: string[] = [];
+  streamFrames : any = [];
+  imageToShow: any;
+  isImageLoading: any;
+  createImageFromBlob = (image: Blob) => {
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+       this.imageToShow = reader.result;
+    }, false);
+ 
+    if (image) {
+       reader.readAsDataURL(image);
+    }
+   }
 
 
   constructor(private apiService: AuthService, private sessionService: SessionService) {
     this.jwtToken = sessionService.jwtToken;
     this.sessionId = sessionService.sessionId;
   }
+
 
   ngOnInit() {
     const live = 'all';
@@ -43,6 +57,8 @@ export class CamStreamComponent {
       }
     );
 
+ 
+
     this.apiService.getStreams().subscribe(
       streams => {
         this.streams = streams;
@@ -57,23 +73,25 @@ export class CamStreamComponent {
 
             this.streamUrls.push(url); // Use dynamic key to assign value
 
+        
             //console.log(this.streamUrls.length);
+            this.apiService.getFrames(stream.id).subscribe(
+              response => {
+                console.log(response);
+                //this.createImageFromBlob(response);
+                this.isImageLoading = false;
+              },
+              error => {
+                console.log(error);
+                this.isImageLoading = false;
+              }
+            );
 
           }
         }
         console.log(this.streamUrls);
 
-        const validUrls: string[] = [];
-        const promises = this.streamUrls.map(url => fetch(url, { method: 'HEAD' }));
-        Promise.all(promises)
-          .then(responses => {
-            for (let i = 0; i < responses.length; i++) {
-              if (responses[i].ok) {
-                validUrls.push(this.streamUrls[i]);
-              }
-            }
-            console.log(validUrls);
-          });
+        
       },
       error => {
         console.error(error);
