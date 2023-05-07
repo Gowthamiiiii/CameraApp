@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { UserSession } from '../User';
 import { LoginCredentials } from '../login';
+import { Stream } from '../Stream';
 
 
 @Injectable({
@@ -11,7 +12,6 @@ import { LoginCredentials } from '../login';
 })
 export class AuthService {
   private apiUrl = 'https://orchid.ipconfigure.com/service/sessions/user';
-  private trustedIssuerUrl = 'https://orchid.ipconfigure.com/service/trustedissuer';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -40,6 +40,17 @@ export class AuthService {
     );
   }
 
+  getStreams(jwt: string, sid: string, live: string = 'all'): Observable<Stream[]> {
+    const url = `https://orchid.ipconfigure.com/service/streams?jwt=${jwt}&sid=${sid}&live=${live}`;
+    return this.http.get<any>(url).pipe(
+      map(response => {
+        console.log(url);
+        return response.streams as Stream[];
+      })
+    );
+  }
+
+  
   private generateJWT(sessionId: string, expiresIn: number): string {
     // Generate JWT token based on the provided session ID and expiration time
     const payload = {
@@ -51,6 +62,8 @@ export class AuthService {
     const jwtHeader = { typ: 'JWT', alg: 'HS256' };
     const jwtPayload = btoa(JSON.stringify(payload));
     const jwtSignature = btoa(JSON.stringify(jwtHeader) + '.' + jwtPayload + 'SECRET_KEY');
+    console.log(jwtHeader);
+    console.log(payload);
     return `${JSON.stringify(jwtHeader)}.${jwtPayload}.${jwtSignature}`;
   }
 
