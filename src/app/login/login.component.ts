@@ -16,7 +16,7 @@ export class LoginComponent {
   password: string = '';
   userSessionId: string | null = null;
   jwtToken: string | null = null;
-
+  public loggedIn: boolean = false;
 
   constructor(private authService: AuthService,  private sessionService: SessionService, private router: Router) { }
 
@@ -36,7 +36,8 @@ export class LoginComponent {
         console.log(`User session ID: ${this.sessionService.sessionId}`);
         console.log(`JWT Token: ${this.sessionService.jwtToken}`);
         // Do something with the user session ID and JWT token
-        this.router.navigate(['/cameras']);
+        this.router.navigate(['/login/cameras']);
+        this.loggedIn = true;
       },
       error => {
         console.log('Authentication failed:', error);

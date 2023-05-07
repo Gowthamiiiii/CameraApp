@@ -1,0 +1,64 @@
+.camera-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: auto;
+    justify-content: center; /* center the items horizontally */
+  align-items: center; /* center the items vertically */
+    gap: 20px;
+  }
+  
+  body {
+    padding: 20px;
+  }
+
+  .container {
+    padding: 20px;
+  }
+  
+  .camera-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(33.33% - 10px);
+    max-width: 400px;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .camera-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .camera-item img {
+    max-width: 400px;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    object-fit: contain;
+  }
+  .camera-item img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+  }
+
+  
+  @media screen and (max-width: 768px) {
+    .camera-item {
+      padding: 10px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .camera-item {
+      padding: 5px;
+    }
+  }
+  
+    
