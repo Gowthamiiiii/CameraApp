@@ -9,12 +9,16 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from './Services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
+import { CamStreamComponent } from './cam-stream/cam-stream.component';
+import { SessionService } from './Services/session.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     CameraComponent,
-    LoginComponent
+    LoginComponent,
+    CamStreamComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +27,7 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     FormsModule
   ],
-  providers: [CameraServiceService, AuthService],
+  providers: [CameraServiceService, AuthService, SessionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

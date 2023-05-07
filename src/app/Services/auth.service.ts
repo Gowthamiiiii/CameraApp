@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { UserSession } from '../User';
 import { LoginCredentials } from '../login';
+import { Stream } from '../Stream';
 
 
 @Injectable({
@@ -11,7 +12,6 @@ import { LoginCredentials } from '../login';
 })
 export class AuthService {
   private apiUrl = 'https://orchid.ipconfigure.com/service/sessions/user';
-  private trustedIssuerUrl = 'https://orchid.ipconfigure.com/service/trustedissuer';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -33,25 +33,37 @@ export class AuthService {
   authenticate(credentials: LoginCredentials): Observable<{sessionId: string, jwtToken: string}> {
     return this.http.post<UserSession>(this.apiUrl, credentials, this.httpOptions).pipe(
       map(session => {
-        const expiresIn = 3600; // Set JWT expiration time in seconds
+        const expiresIn = 2592000; // Set JWT expiration time in seconds
         const jwtToken = this.generateJWT(session.id, expiresIn);
         return {sessionId: session.id, jwtToken};
       })
     );
   }
 
+  // getStreams(): Observable<Stream[]> {
+  //   const url = `https://orchid.ipconfigure.com/service/cameras`;
+  //   return this.http.get<any>(url, {'headers' :this.httpOptions})
+  // }
+
+  getCamera() {
+    const url = `https://orchid.ipconfigure.com/service/cameras`;
+    return this.http.get<any>(url, this.httpOptions);
+  }
+  
+
+  
   private generateJWT(sessionId: string, expiresIn: number): string {
     // Generate JWT token based on the provided session ID and expiration time
     const payload = {
       iat: Math.floor(Date.now() / 1000),
-      exp: Math.floor(Date.now() / 1000) + expiresIn,
-      scope: ['admin'],
-      sessionId: sessionId
+      exp: Math.floor(Date.now() / 1000) + expiresIn
     };
     const jwtHeader = { typ: 'JWT', alg: 'HS256' };
     const jwtPayload = btoa(JSON.stringify(payload));
-    const jwtSignature = btoa(JSON.stringify(jwtHeader) + '.' + jwtPayload + 'SECRET_KEY');
-    return `${JSON.stringify(jwtHeader)}.${jwtPayload}.${jwtSignature}`;
+    const jwtSignature = btoa(JSON.stringify(jwtHeader) + '.' + jwtPayload);
+    console.log(jwtHeader);
+    console.log(payload);
+    return `${jwtSignature}`;
   }
 
 }

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from '../Services/auth.service';
 import { UserSession } from '../User';
 import { LoginCredentials } from '../login';
+import { SessionService } from '../Services/session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,7 @@ export class LoginComponent {
   jwtToken: string | null = null;
 
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,  private sessionService: SessionService, private router: Router) { }
 
   onSubmit() {
     const credentials: LoginCredentials = {
@@ -29,16 +31,17 @@ export class LoginComponent {
     this.authService.authenticate(credentials).subscribe(
       response => {
         this.authenticated = true;
-        this.userSessionId = response.sessionId;
-        this.jwtToken = response.jwtToken;
-        console.log(`User session ID: ${this.userSessionId}`);
-        console.log(`JWT Token: ${this.jwtToken}`);
+        this.sessionService.sessionId = response.sessionId;
+        this.sessionService.jwtToken = response.jwtToken;
+        console.log(`User session ID: ${this.sessionService.sessionId}`);
+        console.log(`JWT Token: ${this.sessionService.jwtToken}`);
         // Do something with the user session ID and JWT token
+        this.router.navigate(['/cameras']);
       },
       error => {
         console.log('Authentication failed:', error);
         this.authenticated = false;
-        this.userSessionId = null;
+        this.sessionService.sessionId = null;
       }
     );
   }
