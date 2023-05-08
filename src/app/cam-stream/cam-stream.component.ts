@@ -20,16 +20,16 @@ export class CamStreamComponent implements OnInit{
   streamFrames : any = [];
   imageToShow: any;
   isImageLoading: any;
-  createImageFromBlob = (image: Blob) => {
-    let reader = new FileReader();
-    reader.addEventListener("load", () => {
-       this.imageToShow = reader.result;
-    }, false);
- 
-    if (image) {
-       reader.readAsDataURL(image);
-    }
+  createImageFromBlob(image: Blob) {
+   let reader = new FileReader();
+   reader.addEventListener("load", () => {
+      this.imageToShow = reader.result;
+   }, false);
+
+   if (image) {
+      reader.readAsDataURL(image);
    }
+  }
 
 
   constructor(private apiService: AuthService, private sessionService: SessionService) {
@@ -57,7 +57,7 @@ export class CamStreamComponent implements OnInit{
       }
     );
 
- 
+
 
     this.apiService.getStreams().subscribe(
       streams => {
@@ -69,20 +69,20 @@ export class CamStreamComponent implements OnInit{
           if (this.cameraids.includes(stream.camera.id)) {
             //console.log("hii")
             //console.log(stream.id);
-            const url = 'https://orchid.ipconfigure.com/service/streams/' + stream.id + '/frame';
+            // const url = 'https://orchid.ipconfigure.com/service/streams/' + stream.id + '/frame';
 
-            this.streamUrls.push(url); // Use dynamic key to assign value
+            // this.streamUrls.push(url); // Use dynamic key to assign value
 
         
             //console.log(this.streamUrls.length);
             this.apiService.getFrames(stream.id).subscribe(
               response => {
                 console.log(response);
-                //this.createImageFromBlob(response);
+                this.createImageFromBlob(response);
                 this.isImageLoading = false;
+                this.streamUrls.push(this.imageToShow);
               },
               error => {
-                console.log(error);
                 this.isImageLoading = false;
               }
             );
@@ -94,7 +94,6 @@ export class CamStreamComponent implements OnInit{
         
       },
       error => {
-        console.error(error);
       }
     );
 
