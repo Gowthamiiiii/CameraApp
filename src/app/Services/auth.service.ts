@@ -63,13 +63,7 @@ export class AuthService {
   getFrames(streamId: string): Observable<Blob> {
     const url = `https://orchid.ipconfigure.com/service/streams/${streamId}/frame`;
   
-    return this.http.get(url, { headers: this.httpHeaders, responseType: 'blob' })
-      .pipe(
-        catchError((error: any) => {
-          console.error(error);
-          return of(new Blob());
-        })
-      );
+    return this.http.get(url, { headers: this.httpHeaders, responseType: 'blob' });
   }
   
 
