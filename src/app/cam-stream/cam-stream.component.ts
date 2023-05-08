@@ -49,7 +49,7 @@ export class CamStreamComponent implements OnInit, OnDestroy {
     this.streamUpdateInterval = setInterval(() => {
       console.log('Refreshing streams...');
       this.getStreams();
-    }, 60000); // 5 minutes in milliseconds
+    }, 60000); // 1 minute in milliseconds
 
     this.getStreams();
   }
@@ -82,7 +82,10 @@ export class CamStreamComponent implements OnInit, OnDestroy {
                 console.log(response);
                 this.createImageFromBlob(response);
                 this.isImageLoading = false;
+                console.log(this.imageToShow);
+                if (typeof this.imageToShow !== 'undefined') {
                 this.streamUrls.push(this.imageToShow);
+                }
               },
               error => {
                 this.isImageLoading = false;
