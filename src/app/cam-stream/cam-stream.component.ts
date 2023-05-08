@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Stream } from '../Stream';
 import { AuthService } from '../Services/auth.service';
 import { SessionService } from '../Services/session.service';
@@ -10,33 +10,22 @@ type StreamHrefs = { [id: string]: string };
   templateUrl: './cam-stream.component.html',
   styleUrls: ['./cam-stream.component.css']
 })
-export class CamStreamComponent implements OnInit{
+export class CamStreamComponent implements OnInit, OnDestroy {
   streams: any = [];
   cameras: any = [];
   cameraids: number[] = [];
   jwtToken: string | null = null;
   sessionId: string | null = null;
   streamUrls: string[] = [];
-  streamFrames : any = [];
+  streamFrames: any = [];
   imageToShow: any;
   isImageLoading: any;
-  createImageFromBlob(image: Blob) {
-   let reader = new FileReader();
-   reader.addEventListener("load", () => {
-      this.imageToShow = reader.result;
-   }, false);
-
-   if (image) {
-      reader.readAsDataURL(image);
-   }
-  }
-
+  streamUpdateInterval: any;
 
   constructor(private apiService: AuthService, private sessionService: SessionService) {
     this.jwtToken = sessionService.jwtToken;
     this.sessionId = sessionService.sessionId;
   }
-
 
   ngOnInit() {
     const live = 'all';
@@ -57,7 +46,20 @@ export class CamStreamComponent implements OnInit{
       }
     );
 
+    this.streamUpdateInterval = setInterval(() => {
+      console.log('Refreshing streams...');
+      this.getStreams();
+    }, 60000); // 5 minutes in milliseconds
 
+    this.getStreams();
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.streamUpdateInterval);
+  }
+
+  getStreams() {
+    this.streamUrls = []; // clear the streamUrls array
 
     this.apiService.getStreams().subscribe(
       streams => {
@@ -90,13 +92,20 @@ export class CamStreamComponent implements OnInit{
           }
         }
         console.log(this.streamUrls);
-
-        
       },
       error => {
       }
     );
-
   }
 
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.imageToShow = reader.result;
+    }, false);
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
 }
