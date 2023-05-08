@@ -19,12 +19,10 @@ export class AuthService {
       Authorization: `Basic ${btoa('liveviewer:tpain')}`,
     })
   };
-  private httpHeaders = {
-    headers: new HttpHeaders({
-      'Content-Type': 'image/jpeg',
-      Authorization: `Basic ${btoa('liveviewer:tpain')}`,
-    })
-  };
+  private httpHeaders = new HttpHeaders({
+    'Content-Type': 'image/jpeg',
+    Authorization: `Basic ${btoa('liveviewer:tpain')}`,
+  });
 
   constructor(private http: HttpClient) { }
 
@@ -62,13 +60,17 @@ export class AuthService {
     return this.http.get<any>(url, this.httpOptions);
   }
 
-
-  getFrames(streamId: string): Observable<Object> {
+  getFrames(streamId: string): Observable<Blob> {
     const url = `https://orchid.ipconfigure.com/service/streams/${streamId}/frame`;
   
-    return this.http.get(url, this.httpHeaders);
+    return this.http.get(url, { headers: this.httpHeaders, responseType: 'blob' })
+      .pipe(
+        catchError((error: any) => {
+          console.error(error);
+          return of(new Blob());
+        })
+      );
   }
-  
   
 
   private generateJWT(sessionId: string, expiresIn: number): string {
