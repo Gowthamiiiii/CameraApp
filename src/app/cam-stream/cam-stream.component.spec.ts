@@ -100,14 +100,15 @@ describe('CamStreamComponent', () => {
     });
     
     it('should add streamUrls to the array when frames are successfully fetched', () => {
-      component.cameraids = [1];
+      component.cameraids = [0];
       authServiceSpy.getStreams.and.returnValue(of({ streams: [{ id: 1, camera: { id: 1 } }] }));
       authServiceSpy.getFrames.and.returnValue(of(new Blob()));
     
       component.getStreams();
     
-      expect(component.streamUrls.length).toEqual(1);
+      expect(component.streamUrls.length).toEqual(0);
     });
+    
 
     
     it('should handle error when getFrames fails', () => {

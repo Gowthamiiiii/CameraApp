@@ -1,4 +1,4 @@
-<p>cam-stream works!</p>
+
 <!-- Replace https://orchid.ipconfigure.com/service/streams/2019/frame with the dynamic URL -->
 <!-- <img src="https://orchid.ipconfigure.com/service/streams/2019/frame" alt="Camera Stream" onerror="this.style.display='none';"> -->
 <div class="camera-grid">
@@ -6,3 +6,9 @@
     <img [src]="camera" alt="Camera Image">
   </a>
 </div>
+
+<div *ngIf="isLoading" style="text-align: center; padding-top: 5%;">
+  <p> Please Wait Until Data Gets Loaded !! or Login Again if it is taking more than 30 seconds </p>
+  <img src="https://media.giphy.com/media/sSgvbe1m3n93G/giphy.gif" alt="Loading...">
+</div>
+

@@ -28,6 +28,11 @@ ng add @angular/material
 ng serve
 
 
+use login creds:
+username : liveserver
+password : tpain
+
+
 # test the application
 ng test 
 
