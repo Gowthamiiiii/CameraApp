@@ -21,6 +21,7 @@ export class CamStreamComponent implements OnInit, OnDestroy {
   imageToShow: any;
   isImageLoading: any;
   streamUpdateInterval: any;
+  isLoading : boolean | undefined;
 
   constructor(private apiService: AuthService, private sessionService: SessionService) {
     this.jwtToken = sessionService.jwtToken;
@@ -65,6 +66,7 @@ export class CamStreamComponent implements OnInit, OnDestroy {
   getStreams() {
     this.streamUrls = []; // clear the streamUrls array
 
+    this.isLoading = true;
     this.apiService.getStreams().subscribe(
       streams => {
         this.streams = streams;
@@ -89,15 +91,18 @@ export class CamStreamComponent implements OnInit, OnDestroy {
                 console.log(this.imageToShow);
                 if (typeof this.imageToShow !== 'undefined') {
                 this.streamUrls.push(this.imageToShow);
+                this.isLoading = false;
                 }
               },
               error => {
+                console.error(error)
                 this.isImageLoading = false;
               }
             );
 
           }
         }
+        
         console.log(this.streamUrls);
       },
       error => {

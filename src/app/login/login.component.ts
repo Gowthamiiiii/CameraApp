@@ -40,7 +40,7 @@ export class LoginComponent {
         this.loggedIn = true;
       },
       error => {
-        console.log('Authentication failed:', error);
+        //console.log('Authentication failed:', error);
         this.authenticated = false;
         this.sessionService.sessionId = null;
       }
