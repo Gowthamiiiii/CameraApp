@@ -51,6 +51,10 @@ export class CamStreamComponent implements OnInit, OnDestroy {
       this.getStreams();
     }, 60000); // 1 minute in milliseconds
 
+    
+  }
+
+  ngAfterViewInit() {
     this.getStreams();
   }
 
@@ -97,6 +101,8 @@ export class CamStreamComponent implements OnInit, OnDestroy {
         console.log(this.streamUrls);
       },
       error => {
+        console.error(error); // log the error
+        throw error; // propagate the error to the caller
       }
     );
   }

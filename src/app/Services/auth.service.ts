@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable, forkJoin, of, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { UserSession } from '../User';
 import { LoginCredentials } from '../login';
@@ -52,18 +52,33 @@ export class AuthService {
 
   getCamera() {
     const url = `https://orchid.ipconfigure.com/service/cameras`;
-    return this.http.get<any>(url, this.httpOptions);
+    return this.http.get<any>(url, this.httpOptions).pipe(
+      catchError(error => {
+        console.error(error);
+        return throwError('Failed to retrieve cameras');
+      })
+    );
   }
 
   getStreams() {
     const url = `https://orchid.ipconfigure.com/service/streams`;
-    return this.http.get<any>(url, this.httpOptions);
+    return this.http.get<any>(url, this.httpOptions).pipe(
+      catchError(error => {
+        console.error(error);
+        return throwError('Failed to retrieve cameras');
+      })
+    );
   }
 
   getFrames(streamId: string): Observable<Blob> {
     const url = `https://orchid.ipconfigure.com/service/streams/${streamId}/frame`;
   
-    return this.http.get(url, { headers: this.httpHeaders, responseType: 'blob' });
+    return this.http.get(url, { headers: this.httpHeaders, responseType: 'blob' }).pipe(
+      catchError(error => {
+        console.error(error);
+        return throwError('Failed to retrieve cameras');
+      })
+    );
   }
   
 

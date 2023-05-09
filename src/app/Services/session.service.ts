@@ -32,4 +32,12 @@ export class SessionService {
       localStorage.removeItem(this.SESSION_ID_KEY);
     }
   }
+
+  setSessionId(value: string) {
+    localStorage.setItem(this.SESSION_ID_KEY, value);
+  }
+
+  removeSessionId() {
+    localStorage.removeItem(this.SESSION_ID_KEY);
+  }
 }
