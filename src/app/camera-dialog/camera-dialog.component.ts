@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-camera-dialog',
@@ -8,7 +8,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class CameraDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<CameraDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { imageSrc: string }
+    
   ) {}
 }
